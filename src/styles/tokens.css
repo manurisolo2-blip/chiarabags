@@ -1,0 +1,18 @@
+:root {
+  --bg-canvas: #F6F4EF;
+  --bg-surface: #EAE4DC;
+  --bg-editorial-dark: #261A17;
+  --ink-primary: #121212;
+  --ink-secondary: #5A5550;
+  --accent-burgundy: #75151E;
+  --accent-blush: #E6D3CE;
+
+  --glass-bg: rgba(246, 244, 239, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-blur: blur(22px) saturate(160%);
+
+  --font-display: 'Bodoni Moda', 'Instrument Serif', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Geist', sans-serif;
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}

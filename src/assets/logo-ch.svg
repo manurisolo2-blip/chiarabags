@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 58" width="132" height="58" role="img" aria-label="CH. Chiara Bags">
+  <text
+    x="66"
+    y="38"
+    text-anchor="middle"
+    fill="#121212"
+    font-family="'Bodoni Moda', 'Instrument Serif', Georgia, serif"
+    font-weight="700"
+    font-size="42"
+    letter-spacing="-1.2"
+  >CH.</text>
+  <text
+    x="26"
+    y="53"
+    text-anchor="start"
+    textLength="80"
+    lengthAdjust="spacing"
+    fill="#121212"
+    font-family="'Plus Jakarta Sans', 'Geist', sans-serif"
+    font-weight="300"
+    font-size="10.2"
+  >CHIARA BAGS</text>
+</svg>
