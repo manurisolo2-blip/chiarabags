@@ -65,9 +65,9 @@ const VB_H = 310;
 const ASPECT = VB_W / VB_H;
 const HOOK_TOP = 4;
 const RAIL_R = 4.6;
-const REST = -70;
+const REST = -68;
 const PERSPECTIVE = 1100;
-const GAP = 0.035;
+const GAP = 0.075;
 const MAX_H = 400;
 const MIN_WIDE_H = 200;
 const CAROUSEL_H = 340;
@@ -278,7 +278,7 @@ function clamp(value: number, min: number, max: number) {
 function lambert(angle: number) {
   const r = (angle * Math.PI) / 180;
   const diffuse = Math.max(0, Math.sin(r) * 0.42 + Math.cos(r) * 0.91);
-  return 0.66 + 0.34 * diffuse;
+  return 0.78 + 0.22 * diffuse;
 }
 
 function Defs({ uid }: { uid: string }) {
@@ -597,7 +597,7 @@ export function ClothingRailHero({
   const returnFocus = React.useRef(null as number | null);
   const pendingOpen = React.useRef(-1);
   const pointer = React.useRef({ id: -1, index: -1, x: 0, y: 0, t: 0, moved: false, kind: "", swipe: 0, lastX: 0, lastT: 0, v: 0 });
-  const sideWidths = React.useMemo(() => items.map((item) => (item.image ? (item.sideImage ? 0.3 : 0.4) : SIDE[item.kind ?? "tee"].width)), [items]);
+  const sideWidths = React.useMemo(() => items.map((item) => (item.image ? (item.sideImage ? 0.3 : 0.46) : SIDE[item.kind ?? "tee"].width)), [items]);
   const live = React.useRef({ active: null as number | null, size, reduced, count, openIndex: null as number | null, carouselIndex: 0, sideWidths });
   live.current = { ...live.current, active, size, reduced, count, openIndex, sideWidths };
 
@@ -893,12 +893,19 @@ export function ClothingRailHero({
     if (event.pointerType !== "mouse" || live.current.size.carousel || live.current.openIndex !== null) return;
     const hit = nearest(event.clientX, event.clientY);
     const current = live.current.active;
-    if (current !== null && hit !== current) {
-      const box = stage?.getBoundingClientRect();
-      const keep = box ? Math.abs(event.clientX - box.left - (s.x[current] ?? 0)) < footprint(live.current.size.h, 0) / 2 + 14 : false;
-      if (keep && (hit === null || Math.abs(event.clientY - (box?.top ?? 0)) < live.current.size.h + 40)) return;
+    if (hit !== null) {
+      stop();
+      choose(hit);
+      return;
     }
-    if (hit !== null) { stop(); choose(hit); }
+    if (current !== null) {
+      const box = stage?.getBoundingClientRect();
+      const keep = box
+        ? Math.abs(event.clientX - box.left - (s.x[current] ?? 0)) < footprint(live.current.size.h, 0) / 2 + 6
+          && event.clientY >= box.top && event.clientY <= box.top + live.current.size.h + 36
+        : false;
+      if (!keep) choose(null);
+    }
   };
 
   const onPointerDown = (event: React.PointerEvent) => {

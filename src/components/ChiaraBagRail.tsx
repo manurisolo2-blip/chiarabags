@@ -30,7 +30,6 @@ function toRailItem(product: Product, priceMode: 'transfer' | 'list'): RailGarme
     name: product.name,
     image: cutout,
     backImage: product.lifestyleImage,
-    sideImage: cutout,
     tag: formatArs(activePrice),
     description: `${formatArs(product.transferPrice)} con 15% OFF transferencia o 3 cuotas sin interés de ${formatArs(product.installmentAmount)} (${formatArs(product.listPrice)} lista). ${product.curatorialNote}`,
     details: [
@@ -63,12 +62,11 @@ export function ChiaraBagRail() {
       items={items}
       hanger="none"
       showSHook
-      autoplay
-      interval={2800}
+      autoplay={false}
       headingAs="h1"
       eyebrow="CH. CHIARA · 15% OFF TRANSFERENCIA · 3 CUOTAS SIN INTERÉS"
       heading="Tu próxima cartera de todos los días"
-      caption="Deslizá el barral, empujá una pieza o hacé clic para verla en detalle."
+      caption="Pasá el cursor sobre una cartera para verla de frente, deslizá el barral o hacé clic para verla en detalle."
       labels={{
         front: 'Frente',
         back: 'Dorso',
