@@ -3,15 +3,12 @@ import { ArrowUpRight } from 'lucide-react';
 import sobreChiara1Img from '../assets/images/lifestyle/sobre-chiara-1.jpg';
 import { FeaturedCarousel3D } from '../components/FeaturedCarousel3D';
 import { HeroEditorial } from '../components/HeroEditorial';
-import { Medallion3DSection } from '../components/Medallion3DSection';
 import { BRAND_INFO, CURATED_BRANDS } from '../data/products';
 
 export function HomePage() {
   return (
     <>
       <HeroEditorial />
-
-      <Medallion3DSection />
 
       <FeaturedCarousel3D />
 

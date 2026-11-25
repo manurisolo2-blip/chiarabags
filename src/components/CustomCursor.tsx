@@ -87,8 +87,6 @@ export function CustomCursor() {
 
   if (!eligible || !visible) return null;
 
-  const is3D = label === 'ROTAR 3D';
-
   return (
     <div aria-hidden="true" className="fixed inset-0 z-[99999] pointer-events-none">
       {/* Outer 36px lerp ring (fades out when morphing into labeled pill) */}
@@ -126,13 +124,13 @@ export function CustomCursor() {
           height: label ? 32 : 8,
           paddingLeft: label ? 14 : 0,
           paddingRight: label ? 14 : 0,
-          backgroundColor: is3D ? '#D90429' : label ? '#121212' : '#D90429',
+          backgroundColor: label ? '#121212' : '#D90429',
         }}
         transition={{ type: 'spring', bounce: 0, duration: 0.22 }}
       >
         {label ? (
           <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.14em] uppercase text-[#F6F4EF] whitespace-nowrap leading-none">
-            {!is3D && <span className="w-1.5 h-1.5 rounded-full bg-[#D90429]" />}
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D90429]" />
             {label}
           </span>
         ) : null}
