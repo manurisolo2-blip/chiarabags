@@ -4,12 +4,17 @@
   --bg-editorial-dark: #261A17;
   --ink-primary: #121212;
   --ink-secondary: #5A5550;
+  --accent-electric: #D90429;
+  --accent-electric-deep: #B80322;
   --accent-burgundy: #75151E;
   --accent-blush: #E6D3CE;
 
   --glass-bg: rgba(246, 244, 239, 0.58);
   --glass-border: rgba(255, 255, 255, 0.65);
   --glass-blur: blur(22px) saturate(160%);
+
+  --glass-nav-bg: rgba(246, 244, 239, 0.82);
+  --glass-nav-blur: blur(24px) saturate(180%);
 
   --font-display: 'Bodoni Moda', 'Instrument Serif', serif;
   --font-sans: 'Plus Jakarta Sans', 'Geist', sans-serif;

@@ -1,8 +1,8 @@
 import { FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
 import { BRAND_INFO, buildWhatsAppLink } from '../data/products';
 import { ChLogo } from './ChLogo';
-import { scrollToSection } from './SmoothScroll';
 
 export function FooterEspresso() {
   const [email, setEmail] = useState('');
@@ -16,11 +16,13 @@ export function FooterEspresso() {
   };
 
   return (
-    <footer className="bg-[#261A17] text-[#F6F4EF] pt-20 pb-24 md:pb-14 px-5 md:px-10">
-      <div className="max-w-[1440px] mx-auto">
+    <footer className="w-full bg-[#261A17] text-[#F6F4EF] pt-20 pb-24 md:pb-14 px-6 md:px-10 lg:px-12">
+      <div className="w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16 md:mb-24">
           <div className="space-y-7 max-w-2xl">
-            <ChLogo tone="light" size="lg" />
+            <Link to="/" aria-label="CH. Chiara Bags Inicio" className="inline-block">
+              <ChLogo tone="light" size="lg" />
+            </Link>
             <p className="display-heading text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F6F4EF]">
               {BRAND_INFO.closingTagline}
             </p>
@@ -32,7 +34,7 @@ export function FooterEspresso() {
             </p>
             {subscribed ? (
               <div className="flex items-center gap-2.5 text-sm text-[#E6D3CE] py-3">
-                <Check className="w-4 h-4 shrink-0" strokeWidth={1.8} />
+                <Check className="w-4 h-4 shrink-0 text-[#D90429]" strokeWidth={2} />
                 <span>Listo. Te avisamos cuando ingresen piezas nuevas a tienda.</span>
               </div>
             ) : (
@@ -52,7 +54,7 @@ export function FooterEspresso() {
                 <button
                   type="submit"
                   aria-label="Suscribirse al newsletter"
-                  className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#F6F4EF] text-[#121212] hover:bg-[#E6D3CE] transition-colors active:scale-[0.95] shrink-0 cursor-pointer"
+                  className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#F6F4EF] text-[#121212] hover:bg-[#D90429] hover:text-[#F6F4EF] transition-colors active:scale-[0.95] shrink-0 cursor-pointer"
                 >
                   <ArrowRight className="w-4 h-4" strokeWidth={1.7} />
                 </button>
@@ -63,34 +65,30 @@ export function FooterEspresso() {
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-14">
           <nav aria-label="Navegación pie de página" className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-            <button
-              type="button"
-              onClick={() => scrollToSection('coleccion')}
-              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#E6D3CE] transition-colors cursor-pointer"
+            <Link
+              to="/coleccion"
+              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#D90429] transition-colors"
             >
               Colección
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection('curaduria')}
-              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#E6D3CE] transition-colors cursor-pointer"
+            </Link>
+            <Link
+              to="/sobre-ch"
+              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#D90429] transition-colors"
             >
               Sobre CH
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection('retiros')}
-              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#E6D3CE] transition-colors cursor-pointer"
+            </Link>
+            <Link
+              to="/retiros"
+              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#D90429] transition-colors"
             >
               Retiros y envíos
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection('pedido-especial')}
-              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#E6D3CE] transition-colors cursor-pointer"
+            </Link>
+            <Link
+              to="/retiros#pedido-especial"
+              className="min-h-[44px] inline-flex items-center py-2 text-[#F6F4EF]/90 hover:text-[#D90429] transition-colors"
             >
               Pedido Especial
-            </button>
+            </Link>
           </nav>
 
           <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[#E6D3CE]">

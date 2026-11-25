@@ -28,6 +28,7 @@ export type LookbookWeight = 'featured' | 'tall' | 'standard';
 
 export interface Product {
   id: string;
+  slug: string;
   name: string;
   brand: string;
   category: Exclude<Category, 'Todas'>;
@@ -113,6 +114,7 @@ export const BRAND_INFO = {
 export const PRODUCTS: Product[] = [
   {
     id: 'bandolera-nala',
+    slug: 'bandolera-nala',
     name: 'Bandolera Nala',
     brand: 'Gabriana',
     category: 'Bandoleras',
@@ -133,6 +135,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'portacelular-mare-xl-natural',
+    slug: 'portacelular-mare-xl-natural',
     name: 'Portacelular Mare XL Natural',
     brand: 'Ruggeri Bags',
     category: 'Portacelulares',
@@ -153,6 +156,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cartera-dalk',
+    slug: 'cartera-dalk',
     name: 'Cartera Dalk',
     brand: 'Good Company',
     category: 'Carteras & Totes',
@@ -173,6 +177,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bolso-adele-negro',
+    slug: 'bolso-adele-negro',
     name: 'Bolso Adele Negro',
     brand: 'Cruz de la Rosa',
     category: 'Carteras & Totes',
@@ -193,6 +198,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bandolera-tuner',
+    slug: 'bandolera-tuner',
     name: 'Bandolera Tuner',
     brand: 'Ruggeri Bags',
     category: 'Bandoleras',
@@ -213,6 +219,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sobre-felipa-negro',
+    slug: 'sobre-felipa-negro',
     name: 'Sobre Felipa Negro',
     brand: 'Cruz de la Rosa',
     category: 'Sobres',
@@ -234,6 +241,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sobre-felipa-nude',
+    slug: 'sobre-felipa-nude',
     name: 'Sobre Felipa Nude',
     brand: 'Cruz de la Rosa',
     category: 'Sobres',
@@ -254,6 +262,10 @@ export const PRODUCTS: Product[] = [
     lookbookWeight: 'tall',
   },
 ];
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return PRODUCTS.find((item) => item.slug === slug);
+}
 
 export function formatArs(value: number): string {
   const rounded = Math.round(value);

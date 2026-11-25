@@ -1,125 +1,108 @@
-import { useState } from 'react';
-import { MotionConfig } from 'framer-motion';
-import { AboutChiara } from '../components/AboutChiara';
+import { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion';
 import { CartDrawer, CartQuickCapsule } from '../components/CartDrawer';
 import { CustomCursor } from '../components/CustomCursor';
 import { FooterEspresso } from '../components/FooterEspresso';
 import { GlassNavbar } from '../components/GlassNavbar';
-import { HeroEditorial } from '../components/HeroEditorial';
-import { LookbookGrid } from '../components/LookbookGrid';
-import { PickupPoints } from '../components/PickupPoints';
 import { Preloader } from '../components/Preloader';
-import { ProductDrawer } from '../components/ProductDrawer';
 import { SearchOverlay } from '../components/SearchOverlay';
 import { SmoothScroll } from '../components/SmoothScroll';
-import { CartItem, Category, PriceMode, Product } from '../data/products';
+import { StoreProvider, useStore } from '../context/StoreContext';
+import { ColeccionPage } from '../pages/ColeccionPage';
+import { HomePage } from '../pages/HomePage';
+import { ProductDetailPage } from '../pages/ProductDetailPage';
+import { RetirosPage } from '../pages/RetirosPage';
+import { SobreChPage } from '../pages/SobreChPage';
 
-export function Page() {
-  const [activeCategory, setActiveCategory] = useState<Category>('Todas');
-  const [priceMode, setPriceMode] = useState<PriceMode>('transfer');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
+function ScrollManager() {
+  const { pathname, hash } = useLocation();
 
-  const handleAddToCart = (product: Product) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      }
-      return [...prev, { product, quantity: 1 }];
-    });
-  };
+  useEffect(() => {
+    if (hash) {
+      const targetId = hash.slice(1);
+      const timer = window.setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          if (window.__lenis) {
+            window.__lenis.scrollTo(el, { offset: -96 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 120);
+      return () => window.clearTimeout(timer);
+    }
 
-  const handleUpdateQuantity = (productId: string, delta: number) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.product.id === productId
-            ? { ...item, quantity: item.quantity + delta }
-            : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
-  };
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
-  const handleRemoveItem = (productId: string) => {
-    setCart((prev) => prev.filter((item) => item.product.id !== productId));
-  };
+  return null;
+}
 
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const hasOverlayOpen = Boolean(selectedProduct || cartOpen || searchOpen);
+function AnimatedRoutes() {
+  const location = useLocation();
+  const prefersReduced = useReducedMotion();
 
   return (
-    <MotionConfig reducedMotion="user">
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={prefersReduced ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/coleccion" element={<ColeccionPage />} />
+          <Route path="/coleccion/:slug" element={<ProductDetailPage />} />
+          <Route path="/sobre-ch" element={<SobreChPage />} />
+          <Route path="/retiros" element={<RetirosPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+function AppShell() {
+  const { cartOpen, searchOpen } = useStore();
+  const hasOverlayOpen = cartOpen || searchOpen;
+
+  return (
+    <>
+      <ScrollManager />
       <SmoothScroll paused={hasOverlayOpen} />
-      <Preloader />
       <CustomCursor />
+      <GlassNavbar />
+      {/* Preloader renders after GlassNavbar so its z-50 curtain paints above navigation without editing Preloader.tsx */}
+      <Preloader />
 
-      <GlassNavbar
-        cartCount={totalCount}
-        onOpenSearch={() => setSearchOpen(true)}
-        onOpenCart={() => setCartOpen(true)}
-      />
-
-      <main>
-        <HeroEditorial
-          priceMode={priceMode}
-          onSelectProduct={setSelectedProduct}
-        />
-
-        <LookbookGrid
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-          priceMode={priceMode}
-          onPriceModeChange={setPriceMode}
-          onSelectProduct={setSelectedProduct}
-        />
-
-        <AboutChiara />
-
-        <PickupPoints />
+      <main className="w-full min-h-screen bg-[#F6F4EF]">
+        <AnimatedRoutes />
       </main>
 
       <FooterEspresso />
+      <CartQuickCapsule hidden={hasOverlayOpen} />
+      <CartDrawer />
+      <SearchOverlay />
+    </>
+  );
+}
 
-      <CartQuickCapsule
-        items={cart}
-        priceMode={priceMode}
-        hidden={hasOverlayOpen}
-        onOpenCart={() => setCartOpen(true)}
-      />
-
-      <ProductDrawer
-        product={selectedProduct}
-        priceMode={priceMode}
-        onClose={() => setSelectedProduct(null)}
-        onSelectProduct={setSelectedProduct}
-        onAddToCart={handleAddToCart}
-        onOpenCart={() => setCartOpen(true)}
-      />
-
-      <CartDrawer
-        open={cartOpen}
-        items={cart}
-        priceMode={priceMode}
-        onPriceModeChange={setPriceMode}
-        onClose={() => setCartOpen(false)}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
-
-      <SearchOverlay
-        open={searchOpen}
-        priceMode={priceMode}
-        onClose={() => setSearchOpen(false)}
-        onSelectProduct={setSelectedProduct}
-      />
+export function Page() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <StoreProvider>
+          <AppShell />
+        </StoreProvider>
+      </BrowserRouter>
     </MotionConfig>
   );
 }
