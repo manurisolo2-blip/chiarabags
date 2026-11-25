@@ -9,6 +9,18 @@
   --accent-burgundy: #75151E;
   --accent-blush: #E6D3CE;
 
+  --background: #F6F4EF;
+  --foreground: #121212;
+  --card: #F6F4EF;
+  --card-foreground: #121212;
+  --muted-foreground: #5A5550;
+  --border: #DDD5CA;
+  --ring: #D90429;
+
+  /* Puente obligatorio para los gradientes inline de product-rail-gallery.tsx */
+  --color-foreground: #121212;
+  --color-muted-foreground: #5A5550;
+
   --glass-bg: rgba(246, 244, 239, 0.58);
   --glass-border: rgba(255, 255, 255, 0.65);
   --glass-blur: blur(22px) saturate(160%);
